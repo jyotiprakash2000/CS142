@@ -1,168 +1,173 @@
-//this is a library
 #include <iostream>
-using namespace std; 
+using namespace std;
 
-class Node
-{
-	public:
-	//data
-	int data;
 
-	//pointer to the next Node
-	Node * next;
-	//construct that makes the ptr to NULL
-	Node()
-        {
-	   next=NULL;
-        }
+class Node{
+    public:
+    // Data
+    int data;
+    // Pointer to the next Node
+    Node * next;
+    // Construct that makes the ptr to NULL
+    Node(int value){
+        next = NULL;
+        data = value;
+    }
 };
-class linkedlist
-{
-	//  head + circles inside linked with eachother
-public:
-	// Head-> Node type ptr
-Node * head;
-Node * tail;
-	//construct
-	linkedlist()
-{
-	head=NULL;
-	tail=NULL;
-}
-	// circles inside linked with eachother
-	//Rules how circles will be linked
 
-	// insert
-	void insert(int value)
-{
-	// if 1st Node is added
-	 Node * temp= new Node;
-	//insert value in the Node
-	temp->data = value;
-	//1st Node only.
-	if(head== NULL)
-    {
-	  head = temp;
-	 
+class CSLL{
+    public:
+    Node * head;
+    CSLL(){
+        head = NULL;
     }
-	//anyother node only.
-	else 
-    {
-	tail->next = temp;
-	
-    }
-	tail = temp;
+    // Inserts to the end of the linked list.
+    void insert(int value){
 
-}
-      void insertAt( int pos ,int value)
-{
-	Node * temp=new Node;
-	temp->data=value;
-	if(pos==1)
-	{
-	 if(head==NULL)
-		{
-		head=temp;
-		tail=temp;
-		}
-	else
-		{
-		Node * current=head;
-		temp->next=current;
-		head=temp;
-		}
-	}
-}
-
-	
-	        // deletion of last element
-                void delet()
-        {
-                //store the tail in temp
-                Node * temp = tail;
-                // before tail has to point to null
-                Node * current =head;
-	         while( current->next != tail)
-             {
-                current=current->next;
-             }
-                
-        
-                current->next = NULL;
-                //update tail
-                tail = current;
-                //delete temp
-                delete temp;
+        // Create a new node
+        Node * temp = new Node(value);
+        // CHeck if empty list
+        if(head == NULL){
+            head = temp;
         }
-    //Deletion at some position
-    void deletAt(int pos){
-        //condition to delete a particular position
+        else{ // If not empty list.
+            Node * current = head;
+            while(current->next != head)
+                {current = current->next;}
+            current->next = temp;
+        }
+        temp->next = head;
+    }
+    // Displays the linked list.
+    void display(){
+        Node * current = head;
+        if(current == NULL) {
+            cout << "No elements " << endl;
+            return;
+        }
+        while(current->next != head){ // Stopping at head
+            cout << current -> data << "->";
+            current = current -> next;
+        }
+        // Printing the last element
+        cout << current -> data ;
+        cout << endl;
+    }
+    void InsertAt(int value, int pos){
+        //checking that if the required position input is correct or not
+        if(countItems()<(pos-1))
+        {
+            cout<<"Linked List does not have that many elements"<<endl;
+        }
+        else
+        {
+        // Reach the place before the position
+        Node * current = head;
+        int i =1;
+        while(i < pos-1){
+            i++;
+            current = current->next;
+        }
+        // Create a node
+        Node * temp = new Node(value);
+
+        // Moving ptrs to the required position
+        temp->next = current->next;
+        current->next = temp;
+        }
+    }
+    void DeleteAt(int pos){
+        //condition to check if the required position input to delete is correct or not
         if(countItems()<pos){
             cout<<"Element does not exist"<<endl;
         }
         else
         {
-            //deleting the same position 1
+            //deleting at the position 1
             if(pos==1){
                 Node * current = head;
+                Node * current1 = head;
+                //moving the ptrs
                 head= current->next;
+                while((current1->next)->next != head){
+                    current1 = current1->next;
+                }
+                current1 -> next = head;
+                //deleting the current
                 delete current;
             }
             else
             {
-        //finding element to delete at that position 
-        Node * current = head;
-        int i =1;
-        while(i < pos){
-            i++;
-            current = current->next;
-        }
-        //shift pointer to the before Node
-        //find element before delete element
-        Node * current1 = head;
-        int j =1;
-        while(j < pos-1){
-            j++;
-            current1 = current1->next;
-        }
-        //shifting
-        current1->next = current->next;
-        //delete current
-        delete current;
+            //finding element to delete at the specific position inputed
+            Node * current = head;
+            int i =1;
+            while(i < pos){
+                i++;
+                current = current->next;
+            }
+            //shifting pointer to the before Node
+            //finding element before delete element
+            Node * current1 = head;
+            int j =1;
+            while(j < pos-1){
+                j++;
+                current1 = current1->next;
+            }
+            //shifting
+            current1->next = current->next;
+            //delete current
+            delete current;
             }
         }
+
     }
-    //count the remainig items
-    int countItems(){
-        int i=1;
-        // before tail has to point to null
-        Node * current = head;
-        while(current->next != NULL){
+    void Delet(){
+        // Deletes the last element.
+        Node * current= head;
+        Node * current1;
+        while((current->next)->next != head){
             current = current->next;
-            i++;
         }
+        //adding one more ptr to point to the last element of the linkedlist
+        current1=current->next;
+        current->next=head;
+        current1->next=NULL;
+        //deleting the last element
+        delete current1;
+    }
+    int  countItems(){
+        int i=1;
+        Node * current= head;
+        while(current->next != head)
+        {
+            i++;
+            current=current->next;
+        }
+
         return i;
     }
-	                                     // display
-	                                     void display()
-                             {
-                                             Node * current =head;
-	                                     while( current != NULL)
-                                      {
-                                             cout << current->data<< "->";
-                                             current=current->next;
-                                      }
-                                             cout <<" NULL" << endl;
-                             }
-};
-/*
-int main() 
-{
-  linkedlist l1;
 
-  l1.insertAt(1,10);
-  l1.display();
-	l1.insertAt(1,5);
-	l1.display();
-return 0;
-}*/
+};
+
+int main(){
+    CSLL csll1;
+    //inserting the elements 1 to 10
+    for(int i= 1; i < 11; i++){
+       csll1.insert(i);
+    }
+    csll1.display();
+    // inserting at a intermediate position
+    csll1.InsertAt(2,3);
+    csll1.display();
+    // deleting the element at the last position
+    csll1.Delet();
+    csll1.display();
+    // deleting the element at the 1st position
+    csll1.DeleteAt(1);
+    csll1.display();
+    // deleting the element at any other position
+    csll1.DeleteAt(3);
+    csll1.display();
+    // counting the no of elements in the linkedlist
+    cout<<"The no. of elements in the Circular Linkedlist is : "<<csll1.countItems();
+}
