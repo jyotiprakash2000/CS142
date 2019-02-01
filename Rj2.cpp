@@ -1,157 +1,168 @@
+//this is a library
 #include <iostream>
-using namespace std;
+using namespace std; 
 
-// Generic Programming - Ignore 
+class Node
+{
+	public:
+	//data
+	int data;
 
-class Node{
-    public:
-    // Data 
-    int data;
-    // Pointer to the next Node
-    Node * next;
-    // Construct that makes the ptr to NULL
-    Node(int value){
-        next = NULL;
-        data = value;
-    }
+	//pointer to the next Node
+	Node * next;
+	//construct that makes the ptr to NULL
+	Node()
+        {
+	   next=NULL;
+        }
 };
+class linkedlist
+{
+	//  head + circles inside linked with eachother
+public:
+	// Head-> Node type ptr
+Node * head;
+Node * tail;
+	//construct
+	linkedlist()
+{
+	head=NULL;
+	tail=NULL;
+}
+	// circles inside linked with eachother
+	//Rules how circles will be linked
 
-class CSLL{
-    public:
-    Node * head;
-    CSLL(){
-        head = NULL;
-    }
-    // Inserts to the end of the linked list.
-    void insert(int value){
-        
-        // Create a new node
-        Node * temp = new Node(value);
-        // CHeck if empty list
-        if(head == NULL){
-            head = temp;
-        }  
-        else{ // If not empty list. 
-            Node * current = head;
-            while(current->next != head)
-                current = current->next;
-            current->next = temp;
-        }
-        temp->next = head;
-    }
-    // Displays the linked list.
-    void display(){
-        Node * current = head;
-        if(current == NULL) {
-            cout << "No elements " << endl;
-            return;
-        }
-        while(current->next != head){ // Stopping at head
-            cout << current -> data << "->";
-            current = current -> next;
-        }
-        // Printing the last element
-        cout << current -> data ;
-        cout << endl;
-    }
-    void InsertAt(int value, int pos)
-	{
-        // checking the position of the given value as this position exist or not
-        if(CountItems()< pos-1)
-   	{
-            cout<<"the value can not inserted as that position does not exist"<< endl;
-        }
-	else{
-        // reach the required position
-        Node * current=head;
-	int i=1;
-    	while(i<pos-1)
-	{
-	i++;
-	current=current->next;
-	}
-	// creating a new node
-        Node * temp = new Node(value);
-	// moving ptr to the inserting position
-	temp->next=current->next;
-	current->next=temp;
- 	}
-    }
-    void DeleteAt(int pos)
+	// insert
+	void insert(int value)
+{
+	// if 1st Node is added
+	 Node * temp= new Node;
+	//insert value in the Node
+	temp->data = value;
+	//1st Node only.
+	if(head== NULL)
     {
-        // locate the required position
-	if( CountItems()<pos)
-	{
-	   cout<<"the element does not exist"<< endl;
-	}
-        else
-      {
-	// finding the specific position which remain exist in the domain
-	Node * current = head;
-	Node * current1 ;
-	int i=1;
-	while(i<pos)
-	{
-        i++;
-	current=current->next;
-	}
-	// shifting the second pointer towards the current 
-        // findig the element placed before the deleting element
- 	 current1=head;
-	int r=1;
- 	while((current1->next)->next !=head)
-	{
-	current1=current1->next;
-	r++;
-	} 
-	// shifting the pointer
-	current1->next=current->next;
-	// deleting the current one
-	delete current;
-      }
+	  head = temp;
+	 
     }
-    void Delet()
+	//anyother node only.
+	else 
     {
-        // Deletes the last element.
-	Node * current=head;
-	Node * current1;
-        while( current->next->next!=head){
-	current=current->next;
-	}
-	current1=current->next;
-	current->next=head;
-	current1->next=NULL;
-	// deleting the last one
-	delete current1;
+	tail->next = temp;
 	
     }
-    int CountItems(){
-	int k=1;
-	Node * current = head;
-        // Counts the Number of items.
-	while(current->next!=head){
-	k++;
-	current=current->next;
-	}
-	return k;
-    }
+	tail = temp;
 
-
-};
-
-int main(){
-    CSLL csll1;
-    for(int i= 1; i < 11; i++){
-       csll1.insert(i);
-    }
-    //csll1.insert(1);
-    csll1.display();
-    csll1.InsertAt(2,9);
-    csll1.display();
-    csll1.InsertAt(9,1);
-    csll1.display();
-    csll1.Delet();
-    csll1.display();
-    csll1.DeleteAt(5);
-    csll1.CountItems();
 }
+      void insertAt( int pos ,int value)
+{
+	Node * temp=new Node;
+	temp->data=value;
+	if(pos==1)
+	{
+	 if(head==NULL)
+		{
+		head=temp;
+		tail=temp;
+		}
+	else
+		{
+		Node * current=head;
+		temp->next=current;
+		head=temp;
+		}
+	}
+}
+
+	
+	        // deletion of last element
+                void delet()
+        {
+                //store the tail in temp
+                Node * temp = tail;
+                // before tail has to point to null
+                Node * current =head;
+	         while( current->next != tail)
+             {
+                current=current->next;
+             }
+                
+        
+                current->next = NULL;
+                //update tail
+                tail = current;
+                //delete temp
+                delete temp;
+        }
+    //Deletion at some position
+    void deletAt(int pos){
+        //condition to delete a particular position
+        if(countItems()<pos){
+            cout<<"Element does not exist"<<endl;
+        }
+        else
+        {
+            //deleting the same position 1
+            if(pos==1){
+                Node * current = head;
+                head= current->next;
+                delete current;
+            }
+            else
+            {
+        //finding element to delete at that position 
+        Node * current = head;
+        int i =1;
+        while(i < pos){
+            i++;
+            current = current->next;
+        }
+        //shift pointer to the before Node
+        //find element before delete element
+        Node * current1 = head;
+        int j =1;
+        while(j < pos-1){
+            j++;
+            current1 = current1->next;
+        }
+        //shifting
+        current1->next = current->next;
+        //delete current
+        delete current;
+            }
+        }
+    }
+    //count the remainig items
+    int countItems(){
+        int i=1;
+        // before tail has to point to null
+        Node * current = head;
+        while(current->next != NULL){
+            current = current->next;
+            i++;
+        }
+        return i;
+    }
+	                                     // display
+	                                     void display()
+                             {
+                                             Node * current =head;
+	                                     while( current != NULL)
+                                      {
+                                             cout << current->data<< "->";
+                                             current=current->next;
+                                      }
+                                             cout <<" NULL" << endl;
+                             }
+};
+/*
+int main() 
+{
+  linkedlist l1;
+
+  l1.insertAt(1,10);
+  l1.display();
+	l1.insertAt(1,5);
+	l1.display();
+return 0;
+}*/
