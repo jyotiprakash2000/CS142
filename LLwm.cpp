@@ -1,3 +1,5 @@
+
+
 //this is a library
 #include <iostream>
 using namespace std; 
@@ -78,7 +80,14 @@ Node * tail;
 	        // deletion of last element
                 void delet()
         {
-                //store the tail in temp
+		if(head==NULL)
+		{
+		head=NULL;
+		tail=NULL;
+		}
+		else
+		{               
+		//store the tail in temp
                 Node * temp = tail;
                 // before tail has to point to null
                 Node * current =head;
@@ -93,6 +102,7 @@ Node * tail;
                 tail = current;
                 //delete temp
                 delete temp;
+		}
         }
     //Deletion at some position
     void deletAt(int pos){
@@ -136,12 +146,19 @@ Node * tail;
     int countItems(){
         int i=1;
         // before tail has to point to null
+	if(head==NULL)
+	{
+	return 0;
+	}
+	else
+	{
         Node * current = head;
         while(current->next != NULL){
             current = current->next;
             i++;
         }
         return i;
+	}
     }
 	                                     // display
 	                                     void display()
@@ -159,10 +176,13 @@ Node * tail;
 int main() 
 {
   linkedlist l1;
-
   l1.insertAt(1,10);
-  l1.display();
-	l1.insertAt(1,5);
-	l1.display();
+  l1.display();	
+l1.deletAt(1);
+l1.display();
 return 0;
-}*/
+}
+*/
+
+
+

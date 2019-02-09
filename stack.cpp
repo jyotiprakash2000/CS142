@@ -1,5 +1,8 @@
-//#include<iostream>
-#include "Rj2.cpp"
+
+
+
+#include<iostream>
+#include "LLwm.cpp"
 using namespace std;
 class stack 
 {
@@ -38,6 +41,17 @@ class stack
 	{
 		return l1.countItems();
 	}
+	void topdisplay()
+	{
+	if(l1.head==NULL)
+		{
+		cout<<"the stack has no element"<< endl;
+		}
+	else
+		{
+		cout<< " the top element is"<< l1.head->data<<endl;
+		}
+	}
 	
 	void display()
 	{
@@ -47,14 +61,20 @@ class stack
 int main()
 {
 stack s1;
-for(int i=0;i<5;i++)
+for(int i=0;i<2;i++)
 {s1.push(i);}
 s1.display();
 s1.pop();
 s1.display();
 s1.pop();
 s1.display();
-s1.size();
+cout<<s1.size()<<endl;
+s1.pop();
 s1.display();
+s1.topdisplay();
+cout<<s1.isempty();
+cout<<endl;
+
 return 0;
 }
+
