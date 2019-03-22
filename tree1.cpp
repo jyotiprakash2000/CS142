@@ -130,7 +130,7 @@ public:
 			else if(curr!=NULL)
 			return 1+count(curr->left)+count(curr->right);
 		}
-	void replacewithparent(node * curr, int value)
+	void replace(node * curr, int value)
 		{
 			node*rep=new node(value);
 			replace1(curr,rep);
@@ -220,6 +220,11 @@ cout<<endl;
 int a;
 cin>>a;
 b1.Delete(a);
+b1.display();
+cout<<endl;
+int c;
+cin>>c;
+b1.replace(b1.root,c);
 b1.display();
 return 0;
 }
